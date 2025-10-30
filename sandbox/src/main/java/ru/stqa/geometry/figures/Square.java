@@ -1,21 +1,30 @@
 package ru.stqa.geometry.figures;
 
-public class Square {
-    public static void printSquareArea(double side) {
-        String text = String.format("Плодащь квадрата со стороной %f = %f ", side, area(side));
+public record Square(
+        double side) { //можно испольозовать record вместо class и после имени класса указывается набор свйоств
+
+ /*   private double side; //описание структуры объекта перечисляет его свойства
+
+    public Square(double side) { //конструктор присваивает знаяения параматеров в эти свойства
+        this.side = side; //свойство объекта= параметр функции
+    }
+ */
+
+    public static void printSquareArea(Square s) {
+        String text = String.format("Плодащь квадрата со стороной %f = %f ", s.side, s.area());
         System.out.println(text);
     }
 
-    public static void printSquarePerimeter(double side) {
-        String text = String.format("Плодащь квадрата со стороной %f = %f ", side, perimeter(side));
+    public static void printSquarePerimeter(Square s) {
+        String text = String.format("Плодащь квадрата со стороной %f = %f ", s.side, s.perimeter());
         System.out.println(text);
     }
 
-    public static double area(double a) {
-        return a * a;
+    public double area() {
+        return this.side * this.side;
     }
 
-    public static double perimeter(double a) {
-        return a * 4;
+    public double perimeter() {
+        return 4 * this.side;
     }
 }

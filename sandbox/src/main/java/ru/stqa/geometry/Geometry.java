@@ -7,15 +7,14 @@ import ru.stqa.geometry.figures.Triangle;
 public class Geometry {
     public static void main(String[] args) {
 
-        Square.printSquareArea(7.0);
-        Square.printSquarePerimeter(7.0);
+        Square.printSquareArea(new Square(7.0));
+        Square.printSquarePerimeter(new Square(7.0));
 
-        Rectangle.printRectangleArea(3.0, 5.0);
-        Rectangle.printRectanglePerimeter(3.0,5.0);
+        Rectangle.printRectangleArea(new Rectangle(5.0, 6.0));
+        Rectangle.printRectanglePerimeter(new Rectangle(5.0, 6.0));
 
-        Triangle.printTriangleArea(5.0, 6.0, 7.0);
-        Triangle.printTrianglePerimeter(5.0,6.0,7.0);
-
+        Triangle.printTriangleArea(new Triangle(5.0, 6.0, 7.0));
+        Triangle.printTrianglePerimeter(new Triangle(5.0, 6.0, 7.0));
 
     }
 
