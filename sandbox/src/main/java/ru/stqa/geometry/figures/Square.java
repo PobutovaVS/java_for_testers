@@ -1,7 +1,6 @@
 package ru.stqa.geometry.figures;
 
-public record Square(
-        double side) { //можно испольозовать record вместо class и после имени класса указывается набор свйоств
+public record Square(double side) { //можно испольозовать record вместо class и после имени класса указывается набор свйоств
 
  /*   private double side; //описание структуры объекта перечисляет его свойства
 
@@ -9,7 +8,11 @@ public record Square(
         this.side = side; //свойство объекта= параметр функции
     }
  */
-
+    public Square {
+        if (side<0) {
+            throw new IllegalArgumentException("Square side should be non-negative");
+        }
+    }
     public static void printSquareArea(Square s) {
         String text = String.format("Плодащь квадрата со стороной %f = %f ", s.side, s.area());
         System.out.println(text);

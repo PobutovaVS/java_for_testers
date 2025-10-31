@@ -10,6 +10,13 @@ public record Rectangle(double sideA, double sideB) {
         this.sideB = sideB;
     }
 */
+    public Rectangle {
+        if (sideA < 0 || sideB < 0) {
+            throw new IllegalArgumentException("Rectangle side should be non-negative");
+
+        }
+    }
+
     public static void printRectangleArea(Rectangle r) {
         String text = String.format("Плодащь прямоугольника со сторонами  %f и %f = %f", r.sideA, r.sideB, r.area());
         System.out.println(text);

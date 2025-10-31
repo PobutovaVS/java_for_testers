@@ -21,4 +21,14 @@ public class RectangleTests {
         Assertions.assertEquals(24.0, result);
     }
 
+    @Test
+    void cannotCreateSquareWithNegativeSide() {
+        try {
+            new Rectangle(-5.0,6.0);
+            Assertions.fail();
+        } catch (IllegalArgumentException exception) {
+            //OK
+        }
+    }
+
 }
