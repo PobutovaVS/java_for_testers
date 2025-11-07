@@ -9,18 +9,18 @@ public class SquareTests {
 
     @Test
     void canCalculateArea() {
-        var s=new Square(5.0); // создание объекта
+        var s = new Square(5.0); // создание объекта
         double result = s.area();
-       // Assertions.assertEquals(25.0, result);
-        if (result!=25.0) {
+        // Assertions.assertEquals(25.0, result);
+        if (result != 25.0) {
             throw new AssertionError(String.format("Expexted %f, actual %f", 25.0, result));  // выбросить икслючение
         }
     }
 
     @Test
     void canCalculatePerimeter() {
-        var s=new Square(5.0);
-        double result=s.perimeter();
+        var s = new Square(5.0);
+        double result = s.perimeter();
         Assertions.assertEquals(20.0, new Square(5.0).perimeter());
     }
 
@@ -30,10 +30,29 @@ public class SquareTests {
             new Square(-5.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
-        //OK
+            //OK
         }
-        }
+    }
 
+    @Test
+    void testEquality() {
+        var s1 = new Square(5.0);
+        var s2 = new Square(5.0);
+        Assertions.assertEquals(s1, s2);
+    }
 
+    @Test
+    void testNonEquality() {
+        var s1 = new Square(5.0);
+        var s2 = new Square(4.0);
+        Assertions.assertNotEquals(s1, s2);
+    }
 
+    @Test
+    void testPass() {
+        var s1 = new Square(5.0);
+        var s2 = new Square(5.0);
+        Assertions.assertTrue(s1.equals(s2));
+    }
 }
+

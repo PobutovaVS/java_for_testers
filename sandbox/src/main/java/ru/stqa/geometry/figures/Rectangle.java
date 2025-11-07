@@ -1,5 +1,7 @@
 package ru.stqa.geometry.figures;
 
+import java.util.Objects;
+
 public record Rectangle(double sideA, double sideB) {
 
     /*  private double sideA;
@@ -33,5 +35,18 @@ public record Rectangle(double sideA, double sideB) {
 
     public double perimeter() {
         return 2 * (this.sideA + this.sideB);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Rectangle rectangle = (Rectangle) o;
+        return (Double.compare(sideA, rectangle.sideA) == 0 && Double.compare(sideB, rectangle.sideB) == 0)
+                || (Double.compare(sideA, rectangle.sideB) == 0 && Double.compare(sideB, rectangle.sideA) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sideA, sideB);
     }
 }

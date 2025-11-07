@@ -1,5 +1,7 @@
 package ru.stqa.geometry.figures;
 
+import java.util.Objects;
+
 public record Triangle(double sideA, double sideB, double sideC) {
 
     public Triangle {
@@ -28,6 +30,20 @@ public record Triangle(double sideA, double sideB, double sideC) {
 
     public double perimeter() {
         return this.sideA + this.sideB + this.sideC;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        Triangle triangle = (Triangle) o;
+        return (Double.compare(sideA, triangle.sideA) == 0 && Double.compare(sideB, triangle.sideB) == 0 && Double.compare(sideC, triangle.sideC) == 0)
+                || (Double.compare(sideA, triangle.sideB) == 0 && Double.compare(sideB, triangle.sideC) == 0 && Double.compare(sideC, triangle.sideA) == 0)
+                || (Double.compare(sideA, triangle.sideC) == 0 && Double.compare(sideB, triangle.sideA) == 0 && Double.compare(sideC, triangle.sideB) == 0);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(sideA, sideB, sideC);
     }
 }
 
