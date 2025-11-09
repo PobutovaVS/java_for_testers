@@ -38,7 +38,11 @@ public record Triangle(double sideA, double sideB, double sideC) {
         Triangle triangle = (Triangle) o;
         return (Double.compare(sideA, triangle.sideA) == 0 && Double.compare(sideB, triangle.sideB) == 0 && Double.compare(sideC, triangle.sideC) == 0)
                 || (Double.compare(sideA, triangle.sideB) == 0 && Double.compare(sideB, triangle.sideC) == 0 && Double.compare(sideC, triangle.sideA) == 0)
-                || (Double.compare(sideA, triangle.sideC) == 0 && Double.compare(sideB, triangle.sideA) == 0 && Double.compare(sideC, triangle.sideB) == 0);
+                || (Double.compare(sideA, triangle.sideC) == 0 && Double.compare(sideB, triangle.sideA) == 0 && Double.compare(sideC, triangle.sideB) == 0)
+
+                || (Double.compare(sideA, triangle.sideA) == 0 && Double.compare(sideB, triangle.sideC) == 0 && Double.compare(sideC, triangle.sideB) == 0)
+                || (Double.compare(sideB, triangle.sideB) == 0 && Double.compare(sideA, triangle.sideC) == 0 && Double.compare(sideC, triangle.sideA) == 0)
+                || (Double.compare(sideC, triangle.sideC) == 0 && Double.compare(sideA, triangle.sideB) == 0 && Double.compare(sideB, triangle.sideA) == 0);
     }
 
     @Override
