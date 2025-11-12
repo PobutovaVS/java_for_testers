@@ -7,14 +7,14 @@ public class RectangleTests {
 
     @Test
     void canCalculateArea() {
-        var r=new Rectangle(5.0,6.0);
+        var r = new Rectangle(5.0, 6.0);
         double result = r.area();
         Assertions.assertEquals(30.0, result);
     }
 
     @Test
     void canCalculatePerimeter() {
-        var r=new Rectangle(5.0,6.0);
+        var r = new Rectangle(5.0, 6.0);
         double result = r.perimeter();
         Assertions.assertEquals(24.0, result);
     }
@@ -22,7 +22,7 @@ public class RectangleTests {
     @Test
     void cannotCreateSquareWithNegativeSide() {
         try {
-            new Rectangle(-5.0,6.0);
+            new Rectangle(-5.0, 6.0);
             Assertions.fail();
         } catch (IllegalArgumentException exception) {
             //OK
@@ -31,15 +31,15 @@ public class RectangleTests {
 
     @Test
     void testEquality() {
-        var r1 = new Rectangle(5.0,4.0);
-        var r2 = new Rectangle(5.0,4.0);
+        var r1 = new Rectangle(5.0, 4.0);
+        var r2 = new Rectangle(5.0, 4.0);
         Assertions.assertEquals(r1, r2);
     }
 
     @Test
     void testEquality2() {
-        var r1 = new Rectangle(5.0,4.0);
-        var r2 = new Rectangle(4.0,5.0);
+        var r1 = new Rectangle(5.0, 4.0);
+        var r2 = new Rectangle(4.0, 5.0);
         Assertions.assertEquals(r1, r2);
     }
 

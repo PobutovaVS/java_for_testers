@@ -41,27 +41,27 @@ public class TriangleTests {
 
     @Test
     void testEquality() {
-        var t1=new Triangle(5.0,6.0,7.0);
-        var t2=new Triangle(5.0,6.0,7.0);
-    Assertions.assertEquals(t1,t2);
+        var t1 = new Triangle(5.0, 6.0, 7.0);
+        var t2 = new Triangle(5.0, 6.0, 7.0);
+        Assertions.assertEquals(t1, t2);
     }
 
     @Test
     void testNonEquality() {
-        var t1=new Triangle(5.0,6.0,7.0);
-        var t2=new Triangle(5.0,6.0,8.0);
-        Assertions.assertNotEquals(t1,t2);
+        var t1 = new Triangle(5.0, 6.0, 7.0);
+        var t2 = new Triangle(5.0, 6.0, 8.0);
+        Assertions.assertNotEquals(t1, t2);
     }
 
     @Test
     void testEquality2() {
-        var t1=new Triangle(5.0,6.0,7.0);
-        var t2=new Triangle(5.0,7.0,6.0);
-        Assertions.assertEquals(t1,t2);
+        var t1 = new Triangle(5.0, 6.0, 7.0);
+        var t2 = new Triangle(5.0, 7.0, 6.0);
+        Assertions.assertEquals(t1, t2);
     }
 
     @Test
-    void testEquality3(){
+    void testEquality3() {
         var a = 2;
         var b = 3;
         var c = 4;

@@ -5,10 +5,10 @@ import java.util.Objects;
 public record Triangle(double sideA, double sideB, double sideC) {
 
     public Triangle {
-        if (sideA<0||sideB<0||sideC<0){
-           throw new IllegalArgumentException("Triangle side should be non-negative");
+        if (sideA < 0 || sideB < 0 || sideC < 0) {
+            throw new IllegalArgumentException("Triangle side should be non-negative");
         }
-        if ((sideA+sideB)<sideC||(sideB+sideC)<sideA||(sideA+sideC)<sideB) {
+        if ((sideA + sideB) < sideC || (sideB + sideC) < sideA || (sideA + sideC) < sideB) {
             throw new IllegalArgumentException("The sum of two sides of a triangle cannot be less then the third one");
         }
     }
