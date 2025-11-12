@@ -30,7 +30,6 @@ public class GroupCreationTests {
             driver.findElement(By.linkText("groups")).click();
 
         }
-
         driver.findElement(By.name("new")).click();
         driver.findElement(By.name("group_name")).click();
         driver.findElement(By.name("group_name")).sendKeys("group_name");
