@@ -1,12 +1,9 @@
 package tests;
 
 import model.ContactData;
-import model.GroupData;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.WebDriver;
 
 public class ContactRemovalTests extends TestBase {
-    private WebDriver driver;
 
     @Test
     public void CanRemoveContact() {
@@ -15,5 +12,4 @@ public class ContactRemovalTests extends TestBase {
         }
         app.contacts().removeContact();
     }
-
 }
