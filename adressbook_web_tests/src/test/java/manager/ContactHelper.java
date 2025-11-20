@@ -8,17 +8,63 @@ public class ContactHelper extends HelperBase {
         super(manager);
     }
 
-    public void createContact(ContactData contactData) {
-        manager.driver.findElement(By.linkText("add new")).click();
-        manager.driver.findElement(By.name("firstname")).click();
-        manager.driver.findElement(By.name("firstname")).sendKeys("Valeriya");
-        manager.driver.findElement(By.name("lastname")).click();
-        manager.driver.findElement(By.name("lastname")).sendKeys("Pobutova");
-        manager.driver.findElement(By.name("address")).click();
-        manager.driver.findElement(By.name("address")).sendKeys("Moscow");
-        manager.driver.findElement(By.name("mobile")).click();
-        manager.driver.findElement(By.name("mobile")).sendKeys("89998888888");
-        manager.driver.findElement(By.cssSelector("input:nth-child(75)")).click();
+    public void openContactPage() {
+        if (!manager.isElementPresent(By.name("Edit / add address book entry"))) {
+            click(By.linkText("add new"));
+        }
+    }
+
+    public void openHomePage() {
+        if (!manager.isElementPresent(By.name("Number of results:"))) {
+            click(By.linkText("home page"));
+        }
+    }
+
+    public void returnToHomePage() {
+        click(By.linkText("home page"));
+    }
+
+    public boolean isContactPresent() {
+        openContactPage();
+        return manager.isElementPresent(By.name("selected[]"));
+    }
+
+    public void createContact(ContactData contact) {
+        openContactPage();
+        initContactCreation();
+        fillContactForm(contact);
+        submitCreationContact();
+    }
+
+    public void removeContact() {
+        openHomePage();
+        selectContact();
+        removeSelectedContact();
+        returnToHomePage();
+    }
+
+    private void submitCreationContact() {
+        click(By.name("submit"));
+    }
+
+    private void fillContactForm(ContactData contact) {
+        type(By.name("firstname"), contact.firstname());
+        type(By.name("lastname"), contact.lastname());
+        type(By.name("middlename"), contact.middlename());
+        type(By.name("mobile"), contact.mobile());
+    }
+
+    private void initContactCreation() {
+        click(By.linkText("add new"));
+    }
+
+    private void selectContact() {
+        click(By.name("selected[]"));
+    }
+
+    private void removeSelectedContact() {
+        click(By.name("delete"));
     }
 
 }
+
