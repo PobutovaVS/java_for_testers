@@ -2,7 +2,6 @@ package manager;
 
 import model.ContactData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -42,15 +41,15 @@ public class ContactHelper extends HelperBase {
         initContactCreation();
         fillContactForm(contact);
         submitCreationContact();
-        returnToHomePage();
+       returnToHomePage();
     }
 
     public void removeContact() {
-        //openHomePage();
+       // openHomePage();
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         selectContact();
         WebDriverWait wait1 = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        removeSelectedContact();
+        removeSelectedContacts();
         WebDriverWait wait2 = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         returnToHomePage();
     }
@@ -78,7 +77,7 @@ public class ContactHelper extends HelperBase {
         click(By.name("selected[]"));
     }
 
-    private void removeSelectedContact() {
+    private void removeSelectedContacts() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         click(By.name("delete"));
     }
@@ -88,5 +87,16 @@ public class ContactHelper extends HelperBase {
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
+    public void removeAllContacts() {
+        selectAllContacts();
+        removeSelectedContacts();
+    }
+
+    private void selectAllContacts() {
+        var checkboxes = manager.driver.findElements(By.name("selected[]"));
+        for (var checkbox : checkboxes) {
+            checkbox.click();  //цикл, который перебирает все элементы коллекции чекбокс
+        }
+    }
 }
 
