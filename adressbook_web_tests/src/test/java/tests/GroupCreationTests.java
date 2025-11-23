@@ -30,7 +30,7 @@ public class GroupCreationTests extends TestBase {
         int groupCount = app.groups().getCount();
 
         for (int i = 0; i < n; i++) {
-            app.groups().createGroup(new GroupData("group name", "group header", "group footer"));
+            app.groups().createGroup(new GroupData(randomString(i * 10), "group header", "group footer"));
         }
 
         int newGroupCount = app.groups().getCount();
