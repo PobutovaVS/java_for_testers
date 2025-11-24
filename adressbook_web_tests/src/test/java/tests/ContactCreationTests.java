@@ -16,13 +16,17 @@ public class ContactCreationTests extends TestBase {
             for (var middlename : List.of("", "middlename")) {
                 for (var lastname : List.of("", "lastname")) {
                     for (var mobile : List.of("", "phone")) {
-                        result.add(new ContactData(name, middlename, lastname, mobile));
+                        result.add(new ContactData("", name, middlename, lastname, mobile));
                     }
                 }
             }
         }
         for (int i = 0; i < 5; i++) {
-            result.add(new ContactData(randomString(i), randomString(i), randomString(i), randomString(i)));
+            result.add(new ContactData()
+                    .withFirsName(randomString(i))
+                    .withMiddleName(randomString(i))
+                    .withLastName(randomString(i))
+                    .withMobile(randomString(i)));
         }
         return result;
     }
@@ -37,7 +41,11 @@ public class ContactCreationTests extends TestBase {
     }
 
     public static List<ContactData> negativeContactProvider() {
-        var result = new ArrayList<ContactData>(List.of(new ContactData("name'", "", "", "")));
+        var result = new ArrayList<ContactData>(List.of(new ContactData()
+                .withFirsName("name'")
+                .withMiddleName("")
+                .withLastName("")
+                .withMobile("")));
         return result;
     }
 

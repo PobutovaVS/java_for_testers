@@ -5,6 +5,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
@@ -19,6 +21,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void openHomePage() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         if (!manager.isElementPresent(By.name("Number of results:"))) {
             click(By.linkText("home page"));
         }
@@ -44,13 +47,11 @@ public class ContactHelper extends HelperBase {
        returnToHomePage();
     }
 
-    public void removeContact() {
-       // openHomePage();
+    public void removeContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        selectContact();
-        WebDriverWait wait1 = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        //openHomePage();
+        selectContact(contact);
         removeSelectedContacts();
-        WebDriverWait wait2 = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         returnToHomePage();
     }
 
@@ -72,9 +73,9 @@ public class ContactHelper extends HelperBase {
         click(By.linkText("add new"));
     }
 
-    private void selectContact() {
+    private void selectContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        click(By.name("selected[]"));
+        click(By.cssSelector(String.format("input[value='%s']",contact.id())));
     }
 
     private void removeSelectedContacts() {
@@ -88,6 +89,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeAllContacts() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         selectAllContacts();
         removeSelectedContacts();
     }
@@ -97,6 +99,22 @@ public class ContactHelper extends HelperBase {
         for (var checkbox : checkboxes) {
             checkbox.click();  //цикл, который перебирает все элементы коллекции чекбокс
         }
+    }
+
+    public List<ContactData> getList() {
+        var contacts = new ArrayList<ContactData>();
+        var tds = manager.driver.findElements(By.name("entry"));
+        for (var td : tds) {
+            var first_name = td.findElement(By.xpath("./td[3]"));
+            var last_name = td.findElement(By.xpath("./td[2]"));
+            var firstname = first_name.getText();
+            var lastname = last_name.getText();
+            var checkbox = td.findElement(By.name("selected[]"));
+            var id = checkbox.getAttribute("value");
+            contacts.add(new ContactData().withId(id).withFirsName(firstname).withLastName(lastname));
+        }
+        return contacts;
+
     }
 }
 
