@@ -44,7 +44,7 @@ public class ContactHelper extends HelperBase {
         initContactCreation();
         fillContactForm(contact);
         submitCreationContact();
-       returnToHomePage();
+        returnToHomePage();
     }
 
     public void removeContact(ContactData contact) {
@@ -75,7 +75,7 @@ public class ContactHelper extends HelperBase {
 
     private void selectContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        click(By.cssSelector(String.format("input[value='%s']",contact.id())));
+        click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void removeSelectedContacts() {
@@ -114,7 +114,22 @@ public class ContactHelper extends HelperBase {
             contacts.add(new ContactData().withId(id).withFirsName(firstname).withLastName(lastname));
         }
         return contacts;
+    }
 
+    private void initContactModification() {
+        click(By.cssSelector("a[href^='edit.php?id=']"));
+    }
+
+    private void submitContactModification() {
+        click(By.name("update"));
+    }
+
+    public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        selectContact(contact);
+        initContactModification();
+        fillContactForm(modifiedContact);
+        submitContactModification();
+        returnToHomePage();
     }
 }
 
