@@ -102,6 +102,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public List<ContactData> getList() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         var contacts = new ArrayList<ContactData>();
         var tds = manager.driver.findElements(By.name("entry"));
         for (var td : tds) {
