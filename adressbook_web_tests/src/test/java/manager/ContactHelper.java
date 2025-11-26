@@ -112,13 +112,13 @@ public class ContactHelper extends HelperBase {
             var lastname = last_name.getText();
             var checkbox = td.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            contacts.add(new ContactData().withId(id).withFirsName(firstname));
+            contacts.add(new ContactData().withId(id).withFirstName(firstname));
         }
         return contacts;
     }
 
-    private void initContactModification() {
-        click(By.xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
+    private void initContactModification(ContactData contact) {
+        click(By.cssSelector(String.format("a[href^='edit.php?id=%s']", contact.id())));
     }
 
     private void submitContactModification() {
@@ -128,7 +128,7 @@ public class ContactHelper extends HelperBase {
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
         openHomePage();
         selectContact(contact);
-        initContactModification();
+        initContactModification(contact);
         fillContactForm(modifiedContact);
         submitContactModification();
         returnToHomePage();

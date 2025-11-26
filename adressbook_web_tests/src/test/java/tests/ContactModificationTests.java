@@ -17,7 +17,7 @@ public class ContactModificationTests extends TestBase {
         var oldContact = app.contacts().getList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContact.size());
-        var testData = new ContactData().withFirsName("modified name");
+        var testData = new ContactData().withFirstName("modified name");
         app.contacts().modifyContact(oldContact.get(index), testData);
         /* 1й параметр это группа, которую хотим модифицировать,
         2й параметр содержит данные, которыми  заполнится группа*/

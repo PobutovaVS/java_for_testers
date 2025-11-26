@@ -14,7 +14,7 @@ public class ContactRemovalTests extends TestBase {
     public void CanRemoveContact() {
         if (app.contacts().getCount() == 0) {
             app.contacts().createContact(new ContactData()
-                    .withFirsName("vdfv")
+                    .withFirstName("vdfv")
                     .withMiddleName("dsdvs")
                     .withLastName("dvfdvf")
                     .withMobile("vvdfv"));
