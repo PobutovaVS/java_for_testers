@@ -22,7 +22,7 @@ public class ContactHelper extends HelperBase {
 
     public void openHomePage() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        if (!manager.isElementPresent(By.name("Number of results:"))) {
+        if (!manager.isElementPresent(By.xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img"))) {
             click(By.linkText("home page"));
         }
     }
@@ -112,13 +112,13 @@ public class ContactHelper extends HelperBase {
             var lastname = last_name.getText();
             var checkbox = td.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            contacts.add(new ContactData().withId(id).withFirsName(firstname).withLastName(lastname));
+            contacts.add(new ContactData().withId(id).withFirsName(firstname));
         }
         return contacts;
     }
 
     private void initContactModification() {
-        click(By.cssSelector("a[href^='edit.php?id=']"));
+        click(By.xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img"));
     }
 
     private void submitContactModification() {
@@ -126,6 +126,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        openHomePage();
         selectContact(contact);
         initContactModification();
         fillContactForm(modifiedContact);
