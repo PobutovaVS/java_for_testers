@@ -66,7 +66,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contact.lastname());
         type(By.name("middlename"), contact.middlename());
         type(By.name("mobile"), contact.mobile());
+        //attach(By.name("photo"), contact.photo());
     }
+
 
     private void initContactCreation() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
@@ -112,7 +114,7 @@ public class ContactHelper extends HelperBase {
             var lastname = last_name.getText();
             var checkbox = td.findElement(By.name("selected[]"));
             var id = checkbox.getAttribute("value");
-            contacts.add(new ContactData().withId(id).withFirstName(firstname));
+            contacts.add(new ContactData().withId(id).withFirstName(firstname).withLastName(lastname));
         }
         return contacts;
     }

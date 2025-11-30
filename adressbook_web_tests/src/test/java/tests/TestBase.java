@@ -2,11 +2,6 @@ package tests;
 
 import manager.ApplicationManager;
 import org.junit.jupiter.api.BeforeEach;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Dimension;
-import org.openqa.selenium.WebDriver;
-
-import java.util.Random;
 
 public class TestBase {
 
@@ -20,12 +15,4 @@ public class TestBase {
         app.init(System.getProperty("browser", "firefox"));
     }
 
-    public static String randomString(int n) {
-        var rnd = new Random();
-        var result = "";
-        for (int i = 0; i < n; i++) {
-            result = result + (char) ('a' + rnd.nextInt(26));
-        }
-        return result;
-    }
 }
