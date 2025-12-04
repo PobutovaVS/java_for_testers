@@ -11,17 +11,17 @@ import java.util.Random;
 public class ContactModificationTests extends TestBase {
     @Test
     void canModifyContact() {
-        if (app.contacts().getCount() == 0) {
-            app.contacts().createContact(new ContactData("", "name", "middlename", "lastname", "mobile",""));
+        if (app.hbm().getContactCount() == 0) {
+            app.hbm().createContact(new ContactData("", "name", "middlename", "lastname", "mobile",""));
         }
-        var oldContact = app.contacts().getList();
+        var oldContact = app.hbm().getContactList();
         var rnd = new Random();
         var index = rnd.nextInt(oldContact.size());
         var testData = new ContactData().withFirstName("modified name");
         app.contacts().modifyContact(oldContact.get(index), testData);
         /* 1й параметр это группа, которую хотим модифицировать,
         2й параметр содержит данные, которыми  заполнится группа*/
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         var expectedList = new ArrayList<>(oldContact);
         expectedList.set(index, testData.withId(oldContact.get(index).id()));
 

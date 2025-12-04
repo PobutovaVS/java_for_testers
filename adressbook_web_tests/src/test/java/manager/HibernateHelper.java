@@ -19,7 +19,7 @@ public class HibernateHelper extends HelperBase {
         sessionFactory = new Configuration()
                 .addAnnotatedClass(ContactRecord.class)
                 .addAnnotatedClass(GroupRecord.class)
-                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook")
+                .setProperty(AvailableSettings.URL, "jdbc:mysql://localhost/addressbook?zeroDateTimeBehavior=convertToNull")
                 .setProperty(AvailableSettings.USER, "root")
                 .setProperty(AvailableSettings.PASS, "")
                 .buildSessionFactory();
@@ -29,24 +29,25 @@ public class HibernateHelper extends HelperBase {
     static List<GroupData> convertListGroup(List<GroupRecord> records) {
         List<GroupData> result = new ArrayList<>();
         for (var record : records) {
-            result.add(convertGroup(record));
+            result.add(convert(record));
         }
         return result;
     }
 
-   /* static List<ContactData> convertListContact(List<ContactRecord> records) {
+    static List<ContactData> convertListContact(List<ContactRecord> records) {
         List<ContactData> result = new ArrayList<>();
         for (var record : records) {
-            result.add(convertContact(record));
+            result.add(convert(record));
         }
         return result;
-    }*/
+    }
 
-    private static GroupData convertGroup(GroupRecord record) {
+    private static GroupData convert(GroupRecord record) {
         return new GroupData("" + record.id, record.name, record.header, record.footer);
     }
 
-    private static GroupRecord convertGroup(GroupData data) {
+    // метод из объекта типа GroupData строит объект типа GroupRecord
+    private static GroupRecord convert(GroupData data) {
         var id = data.id();
         if ("".equals(id)) {
             id = "0";
@@ -54,9 +55,22 @@ public class HibernateHelper extends HelperBase {
         return new GroupRecord(Integer.parseInt(id), data.name(), data.header(), data.footer());
     }
 
-    //private static ContactData convertContact(ContactRecord record) {
-       // return new ContactData(record.id, record.firstname, record.middlename, record.lastname, record.mobile);
-  //  }
+    private static ContactData convert(ContactRecord record) {
+        return new ContactData()
+                .withId("" + record.id)
+                .withFirstName(record.firstname)
+                .withLastName(record.lastname)
+                .withMiddleName(record.middlename)
+                .withMobile(record.mobile);
+    }
+
+    private static ContactRecord convert(ContactData data) {
+        var id = data.id();
+        if ("".equals(id)) {
+            id = "0";
+        }
+        return new ContactRecord(Integer.parseInt(id), data.firstname(), data.lastname(), data.middlename(), data.mobile());
+    }
 
     public List<GroupData> getGroupList() {
         return convertListGroup(sessionFactory.fromSession(session -> {
@@ -64,12 +78,13 @@ public class HibernateHelper extends HelperBase {
         }));
     }
 
-   /* public List<ContactData> getContactList() {
+   public List<ContactData> getContactList() {
         return convertListContact(sessionFactory.fromSession(session -> {
             return session.createQuery("from ContactRecord", ContactRecord.class).list();
         }));
-    }*/
+    }
 
+    //считает количество групп в результате выполнения sql запроса
     public long getGroupCount() {
         return sessionFactory.fromSession(session -> {
             return session.createQuery("select count (*) from GroupRecord", Long.class).getSingleResult();
@@ -79,8 +94,25 @@ public class HibernateHelper extends HelperBase {
     public void createGroup(GroupData groupData) {
         sessionFactory.inSession(session -> {
             session.getTransaction().begin();
-            session.persist(convertGroup(groupData));
+            session.persist(convert(groupData));
+            session.getTransaction().commit();
+        });
+    }
+
+    //считает количество контактов в результате выполнения sql запроса
+    public long getContactCount() {
+        return sessionFactory.fromSession(session -> {
+            return session.createQuery("select count (*) from ContactRecord", Long.class).getSingleResult();
+        });
+    }
+
+
+    public void createContact(ContactData contactData) {
+        sessionFactory.inSession(session -> {
+            session.getTransaction().begin();
+            session.persist(convert(contactData));
             session.getTransaction().commit();
         });
     }
 }
+

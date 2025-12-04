@@ -62,9 +62,9 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("singleRandomContact")
     public void CanCreateContact(ContactData contact) {
-        var oldContacts = app.jbdc().getContactList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.jbdc().getContactList();
+        var newContacts = app.hbm().getContactList();
         Comparator<ContactData> compareById = (o1, o2) -> {
             return Integer.compare(Integer.parseInt(o1.id()), Integer.parseInt(o2.id()));//сравниваем айдишники последователно
         };
@@ -91,9 +91,9 @@ public class ContactCreationTests extends TestBase {
     @ParameterizedTest
     @MethodSource("negativeContactProvider")
     public void CanNotCreateContacts(ContactData contact) {
-        var oldContacts = app.contacts().getList();
+        var oldContacts = app.hbm().getContactList();
         app.contacts().createContact(contact);
-        var newContacts = app.contacts().getList();
+        var newContacts = app.hbm().getContactList();
         Assertions.assertEquals(newContacts, oldContacts);
     }
 
@@ -105,7 +105,7 @@ public class ContactCreationTests extends TestBase {
                 .withMiddleName(CommonFunctions.randomString(10))
                 .withMobile(CommonFunctions.randomString(10))
                 .withPhoto(CommonFunctions.randomFile("src/test/resources/images"));
-        app.contacts().createContact(contact);
+        app.hbm().createContact(contact);
 
     }
 

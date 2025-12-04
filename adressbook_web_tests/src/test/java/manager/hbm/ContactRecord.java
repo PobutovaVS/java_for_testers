@@ -5,24 +5,48 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
+import java.util.Date;
+import java.util.Random;
+
 @Entity
-@Table(name="addressbook")
+@Table(name = "addressbook")
 public class ContactRecord {
 
     @Id
-    @Column(name="id")
     public int id;
 
-    @Column(name="firstname")
     public String firstname;
 
-    @Column(name="middlename")
     public String middlename;
 
-    @Column(name="lastname")
     public String lastname;
 
-    @Column(name="mobile")
     public String mobile;
+
+    public String nickname = new String();
+    public String company = new String();
+    public String title = new String();
+    public String address = new String();
+    public String home = new String();
+    public String work = new String();
+    public String fax = new String();
+    public String email = new String();
+    public String email2 = new String();
+    public String email3 = new String();
+    public String homepage = new String();
+
+
+    public ContactRecord() {
+
+    }
+
+    public ContactRecord(int id, String firstname, String lastname, String middlename, String mobile) {
+
+        this.id = id;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.middlename = middlename;
+        this.mobile = mobile;
+    }
 
 }

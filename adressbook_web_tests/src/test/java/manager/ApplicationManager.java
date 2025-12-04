@@ -10,7 +10,7 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import java.util.Properties;
 
 public class ApplicationManager {
-    protected WebDriver driver;
+    public WebDriver driver;
     private LoginHelper session;
     private GroupHelper groups;
     private ContactHelper contacts;

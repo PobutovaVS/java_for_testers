@@ -29,7 +29,9 @@ public class ContactHelper extends HelperBase {
 
     public void returnToHomePage() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        click(By.linkText("home page"));
+        click(By.cssSelector("a[href^='./']"));
+
+
     }
 
     public boolean isContactPresent() {
@@ -40,8 +42,8 @@ public class ContactHelper extends HelperBase {
 
     public void createContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        openContactPage();
-        initContactCreation();
+       openContactPage();
+       //initContactCreation();
         fillContactForm(contact);
         submitCreationContact();
         returnToHomePage();
@@ -82,7 +84,7 @@ public class ContactHelper extends HelperBase {
 
     private void removeSelectedContacts() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        click(By.name("delete"));
+        click(By.xpath("//input[@name=\'delete\']"));
     }
 
     public int getCount() {
@@ -91,12 +93,13 @@ public class ContactHelper extends HelperBase {
     }
 
     public void removeAllContacts() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(100));
         selectAllContacts();
         removeSelectedContacts();
     }
 
     private void selectAllContacts() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         for (var checkbox : checkboxes) {
             checkbox.click();  //цикл, который перебирает все элементы коллекции чекбокс
@@ -120,14 +123,18 @@ public class ContactHelper extends HelperBase {
     }
 
     private void initContactModification(ContactData contact) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         click(By.cssSelector(String.format("a[href^='edit.php?id=%s']", contact.id())));
     }
 
     private void submitContactModification() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         click(By.name("update"));
     }
 
+
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         openHomePage();
         selectContact(contact);
         initContactModification(contact);

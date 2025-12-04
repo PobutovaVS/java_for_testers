@@ -24,7 +24,7 @@ public class GroupRemovalTests extends TestBase {
         var newGroups = app.hbm().getGroupList();
         var expectedList = new ArrayList<>(oldGroups);
         expectedList.remove(index);
-        Assertions.assertEquals(newGroups.size(), oldGroups.size() - 1);
+        Assertions.assertEquals(newGroups, expectedList);
     }
 
     @Test
