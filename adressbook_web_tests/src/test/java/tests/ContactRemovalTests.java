@@ -1,6 +1,8 @@
 package tests;
 
+import common.CommonFunctions;
 import model.ContactData;
+import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -41,4 +43,25 @@ public class ContactRemovalTests extends TestBase {
         Assertions.assertEquals(0, app.contacts().getCount());
     }
 
+
+    @Test
+    public void CanRemoveContactGromGroup(){
+        if (app.hbm().getGroupCount()==0){
+            app.contacts().createContactInGroup(new ContactData()
+                    .withFirstName(CommonFunctions.randomString(10))
+                    .withMiddleName(CommonFunctions.randomString(20))
+                    .withLastName(CommonFunctions.randomString(30))
+                    .withMobile(CommonFunctions.randomString(10)), new GroupData("", "gg", "gg", "gg"));
+        }
+
+        var contacts = app.hbm().getContactList();
+        var maxId = contacts.get(contacts.size() - 1).id();
+        var contactForRemove= new ContactData().withId(maxId);
+
+        var groupForContact = app.hbm().getGroupList().get(0);
+        var oldRelated = app.hbm().getContactsInGroup(groupForContact);
+        app.contacts().removeContactFromGroup(contactForRemove, groupForContact);
+        var newRelated = app.hbm().getContactsInGroup(groupForContact);
+        Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
+    }
 }

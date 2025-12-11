@@ -6,6 +6,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @Entity
@@ -48,5 +49,7 @@ public class ContactRecord {
         this.middlename = middlename;
         this.mobile = mobile;
     }
+
+   //public List<GroupRecord> groups;
 
 }

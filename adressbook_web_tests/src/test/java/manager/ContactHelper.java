@@ -1,7 +1,9 @@
 package manager;
 
 import model.ContactData;
+import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
@@ -42,12 +44,61 @@ public class ContactHelper extends HelperBase {
 
     public void createContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-       openContactPage();
-       //initContactCreation();
+        openContactPage();
+        //initContactCreation();
         fillContactForm(contact);
         submitCreationContact();
         returnToHomePage();
     }
+
+    private void selectGroup(GroupData group){
+        new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
+    }
+
+    public void createContactInGroup(ContactData contact, GroupData group) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        openContactPage();
+        //initContactCreation();
+        fillContactForm(contact);
+        selectGroup(group);
+        submitCreationContact();
+        returnToHomePage();
+    }
+
+    public void addContactToGroup(ContactData contact, GroupData group) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        openHomePage();
+        selectContact(contact);
+        selectGroupForContact(group);
+        returnToHomePage();
+    }
+
+    private void selectGroupForContact(GroupData group) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
+
+    }
+
+
+    public void removeContactFromGroup(ContactData contact, GroupData group) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        //openHomePage();
+        selectContact(contact);
+        selectContactGroup(group);
+        removeSelectedContactFromGroup();
+        returnToHomePage();
+    }
+
+    private void removeSelectedContactFromGroup() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        click(By.xpath("//input[@name=\'remove\']"));
+    }
+
+    private void selectContactGroup(GroupData group) {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        new Select(manager.driver.findElement(By.name("group"))).selectByValue(group.id());
+    }
+
 
     public void removeContact(ContactData contact) {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
@@ -142,5 +193,6 @@ public class ContactHelper extends HelperBase {
         submitContactModification();
         returnToHomePage();
     }
+
 }
 
