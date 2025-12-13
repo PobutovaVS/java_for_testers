@@ -65,3 +65,12 @@ public class ContactRemovalTests extends TestBase {
         Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
     }
 }
+  /*if (app.hbm().getContactsInGroupCount()==0){
+var contact = new ContactData()
+        .withLastName(CommonFunctions.randomString(10))
+        .withFirstName(CommonFunctions.randomString(10))
+        .withMiddleName(CommonFunctions.randomString(10))
+        .withMobile(CommonFunctions.randomString(10));
+var group=new GroupData("", "gg", "gg", "gg");
+            app.contacts().createContactInGroup(contact, group);
+        }*/

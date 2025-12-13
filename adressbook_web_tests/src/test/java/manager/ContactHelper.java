@@ -52,6 +52,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectGroup(GroupData group){
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
@@ -66,11 +67,18 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addContactToGroup(ContactData contact, GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        openHomePage();
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(100));
+        //openHomePage();
+        createContact(contact);
         selectContact(contact);
         selectGroupForContact(group);
+        addToGroup();
         returnToHomePage();
+    }
+
+    private void addToGroup() {
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        click(By.name("add"));
     }
 
     private void selectGroupForContact(GroupData group) {
@@ -129,7 +137,7 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectContact(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(1000));
         click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
