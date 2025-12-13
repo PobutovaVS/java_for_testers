@@ -5,11 +5,8 @@ import model.ContactData;
 import model.GroupData;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.time.Duration;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class ContactRemovalTests extends TestBase {
@@ -37,7 +34,7 @@ public class ContactRemovalTests extends TestBase {
     @Test
     public void CanRemoveAllContactsAtOnce() {
         if (app.hbm().getContactCount() == 0) {
-            app.hbm().createContact(new ContactData("", "ddb", "dfvd", "ddfv", "dfvdfv",""));
+            app.hbm().createContact(new ContactData("", "ddb", "dfvd", "ddfv", "dfvdfv", ""));
         }
         app.contacts().removeAllContacts();
         Assertions.assertEquals(0, app.contacts().getCount());
@@ -45,32 +42,26 @@ public class ContactRemovalTests extends TestBase {
 
 
     @Test
-    public void CanRemoveContactGromGroup(){
-        if (app.hbm().getGroupCount()==0){
-            app.contacts().createContactInGroup(new ContactData()
+    public void CanRemoveContactFromGroup() {
+        if (app.hbm().getGroupCount() == 0) {
+            app.hbm().createGroup(new GroupData("", "gg", "gg", "gg"));
+        }
+        var groups = app.hbm().getGroupList();
+        var maxId = groups.get(groups.size() - 1).id();
+        var group = new GroupData().withId(maxId);
+        var contactsInGroup = app.hbm().getContactsInGroup(group);
+        if (contactsInGroup.isEmpty()) {
+            var contact = new ContactData()
                     .withFirstName(CommonFunctions.randomString(10))
                     .withMiddleName(CommonFunctions.randomString(20))
                     .withLastName(CommonFunctions.randomString(30))
-                    .withMobile(CommonFunctions.randomString(10)), new GroupData("", "gg", "gg", "gg"));
+                    .withMobile(CommonFunctions.randomString(10));
+            app.contacts().createContactInGroup(contact, group);
         }
-
-        var contacts = app.hbm().getContactList();
-        var maxId = contacts.get(contacts.size() - 1).id();
-        var contactForRemove= new ContactData().withId(maxId);
-
-        var groupForContact = app.hbm().getGroupList().get(0);
-        var oldRelated = app.hbm().getContactsInGroup(groupForContact);
-        app.contacts().removeContactFromGroup(contactForRemove, groupForContact);
-        var newRelated = app.hbm().getContactsInGroup(groupForContact);
-        Assertions.assertEquals(oldRelated.size() - 1, newRelated.size());
+        var oldListOfContacts = app.hbm().getContactsInGroup(group);
+        var contactForRemove = oldListOfContacts.get(0);
+        app.contacts().removeContactFromGroup(contactForRemove, group);
+        var newListOfContacts = app.hbm().getContactsInGroup(group);
+        Assertions.assertEquals(oldListOfContacts.size() - 1, newListOfContacts.size());
     }
 }
-  /*if (app.hbm().getContactsInGroupCount()==0){
-var contact = new ContactData()
-        .withLastName(CommonFunctions.randomString(10))
-        .withFirstName(CommonFunctions.randomString(10))
-        .withMiddleName(CommonFunctions.randomString(10))
-        .withMobile(CommonFunctions.randomString(10));
-var group=new GroupData("", "gg", "gg", "gg");
-            app.contacts().createContactInGroup(contact, group);
-        }*/

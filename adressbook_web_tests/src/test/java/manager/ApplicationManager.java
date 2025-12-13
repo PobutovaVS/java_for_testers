@@ -6,7 +6,9 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.time.Duration;
 import java.util.Properties;
 
 public class ApplicationManager {
@@ -32,8 +34,11 @@ public class ApplicationManager {
             driver.get(properties.getProperty("web.baseUrl"));
             driver.manage().window().setSize(new Dimension(1920, 1080));
             session().login(properties.getProperty("web.username"), properties.getProperty("web.password"));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+
         }
     }
+
 
     public LoginHelper session() {
         if (session == null) {

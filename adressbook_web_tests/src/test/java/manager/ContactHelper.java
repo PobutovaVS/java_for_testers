@@ -16,34 +16,34 @@ public class ContactHelper extends HelperBase {
     }
 
     public void openContactPage() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         if (!manager.isElementPresent(By.name("Edit / add address book entry"))) {
             click(By.linkText("add new"));
         }
     }
 
     public void openHomePage() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         if (!manager.isElementPresent(By.xpath("//*[@id='maintable']/tbody/tr[2]/td[8]/a/img"))) {
             click(By.linkText("home page"));
         }
     }
 
     public void returnToHomePage() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.cssSelector("a[href^='./']"));
 
 
     }
 
     public boolean isContactPresent() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openContactPage();
         return manager.isElementPresent(By.name("selected[]"));
     }
 
     public void createContact(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openContactPage();
         //initContactCreation();
         fillContactForm(contact);
@@ -52,12 +52,12 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectGroup(GroupData group){
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
 
     public void createContactInGroup(ContactData contact, GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openContactPage();
         //initContactCreation();
         fillContactForm(contact);
@@ -67,7 +67,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public void addContactToGroup(ContactData contact, GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(100));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         //openHomePage();
         createContact(contact);
         selectContact(contact);
@@ -77,28 +77,28 @@ public class ContactHelper extends HelperBase {
     }
 
     private void addToGroup() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("add"));
     }
 
     private void selectGroupForContact(GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         new Select(manager.driver.findElement(By.name("to_group"))).selectByValue(group.id());
 
     }
 
 
     public void removeContactFromGroup(ContactData contact, GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
-        //openHomePage();
-        selectContact(contact);
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        openHomePage();
         selectContactGroup(group);
+        selectContact(contact);
         removeSelectedContactFromGroup();
         returnToHomePage();
     }
 
     private void removeSelectedContactFromGroup() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.xpath("//input[@name=\'remove\']"));
     }
 
@@ -109,7 +109,7 @@ public class ContactHelper extends HelperBase {
 
 
     public void removeContact(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         //openHomePage();
         selectContact(contact);
         removeSelectedContacts();
@@ -117,12 +117,12 @@ public class ContactHelper extends HelperBase {
     }
 
     private void submitCreationContact() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("submit"));
     }
 
     private void fillContactForm(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         type(By.name("firstname"), contact.firstname());
         type(By.name("lastname"), contact.lastname());
         type(By.name("middlename"), contact.middlename());
@@ -137,28 +137,28 @@ public class ContactHelper extends HelperBase {
     }
 
     private void selectContact(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(1000));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.cssSelector(String.format("input[value='%s']", contact.id())));
     }
 
     private void removeSelectedContacts() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.xpath("//input[@name=\'delete\']"));
     }
 
     public int getCount() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         return manager.driver.findElements(By.name("selected[]")).size();
     }
 
     public void removeAllContacts() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(100));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         selectAllContacts();
         removeSelectedContacts();
     }
 
     private void selectAllContacts() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         var checkboxes = manager.driver.findElements(By.name("selected[]"));
         for (var checkbox : checkboxes) {
             checkbox.click();  //цикл, который перебирает все элементы коллекции чекбокс
@@ -166,7 +166,7 @@ public class ContactHelper extends HelperBase {
     }
 
     public List<ContactData> getList() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         var contacts = new ArrayList<ContactData>();
         var tds = manager.driver.findElements(By.name("entry"));
         for (var td : tds) {
@@ -182,18 +182,18 @@ public class ContactHelper extends HelperBase {
     }
 
     private void initContactModification(ContactData contact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.cssSelector(String.format("a[href^='edit.php?id=%s']", contact.id())));
     }
 
     private void submitContactModification() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("update"));
     }
 
 
     public void modifyContact(ContactData contact, ContactData modifiedContact) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openHomePage();
         selectContact(contact);
         initContactModification(contact);

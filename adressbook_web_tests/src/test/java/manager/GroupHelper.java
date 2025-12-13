@@ -13,7 +13,6 @@ public class GroupHelper extends HelperBase {
     public GroupHelper(ApplicationManager manager) {
         super(manager);
     }
-
     public void openGroupsPage() {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("groups"));
@@ -21,7 +20,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void createGroup(GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openGroupsPage();
         initGroupCreation();
         fillGroupForm(group);
@@ -30,7 +29,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void removeGroup(GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openGroupsPage();
         selectGroup(group);
         removeSelectedGroups();
@@ -38,7 +37,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void modifyGroup(GroupData group, GroupData modifiedGroup) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openGroupsPage();
         selectGroup(group);
         initGroupModification();
@@ -48,45 +47,45 @@ public class GroupHelper extends HelperBase {
     }
 
     private void submitGroupCreation() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("submit"));
     }
 
     private void initGroupCreation() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("new"));
     }
 
     private void removeSelectedGroups() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("delete"));
     }
 
 
     private void returnToGroupsPage() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.linkText("group page"));
     }
 
     private void submitGroupModification() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("update"));
     }
 
     private void fillGroupForm(GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         type(By.name("group_name"), group.name());
         type(By.name("group_header"), group.header());
         type(By.name("group_footer"), group.footer());
     }
 
     private void initGroupModification() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.name("edit"));
     }
 
     private void selectGroup(GroupData group) {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         click(By.cssSelector(String.format("input[value='%s']", group.id())));
     }
 
@@ -96,7 +95,7 @@ public class GroupHelper extends HelperBase {
     }
 
     public void removeAllGroups() {
-        WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openGroupsPage();
         selectAllGroups();
         removeSelectedGroups();
