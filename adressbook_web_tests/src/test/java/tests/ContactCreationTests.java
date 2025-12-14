@@ -132,7 +132,7 @@ public class ContactCreationTests extends TestBase {
     @Test
     public void CanAddContactToGroup() {
         if (!app.hbm().getContactList().isEmpty()) {
-            app.contacts().removeAllContacts();
+           app.contacts().removeAllContacts();
         }
         app.hbm().getContactList();
 

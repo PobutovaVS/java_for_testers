@@ -11,7 +11,6 @@ import org.hibernate.cfg.Configuration;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class HibernateHelper extends HelperBase {
     private SessionFactory sessionFactory;
@@ -80,7 +79,7 @@ public class HibernateHelper extends HelperBase {
         }));
     }
 
-   public List<ContactData> getContactList() {
+    public List<ContactData> getContactList() {
         return convertContactList(sessionFactory.fromSession(session -> {
             return session.createQuery("from ContactRecord", ContactRecord.class).list();
         }));
@@ -120,7 +119,7 @@ public class HibernateHelper extends HelperBase {
     public List<ContactData> getContactsInGroup(GroupData group) {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         return sessionFactory.fromSession(session -> {
-           return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
+            return convertContactList(session.get(GroupRecord.class, group.id()).contacts);
         });
     }
 
