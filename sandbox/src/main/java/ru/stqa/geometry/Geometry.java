@@ -5,7 +5,10 @@ import ru.stqa.geometry.figures.Square;
 import ru.stqa.geometry.figures.Triangle;
 
 import java.util.List;
+import java.util.Random;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 public class Geometry {
     public static void main(String[] args) {
@@ -16,19 +19,24 @@ public class Geometry {
 //            Square.printSquarePerimeter(square);
 //        }
 
-
         //функциональный стиль программирования
 //        Consumer<Square> print = square ->  //функция, которая принимает на вход параметр, но ничего не возвращает
 //                Square.printSquareArea(square);
 //        squares.forEach(print);
-
-
         Consumer<Square> print = Square::printSquareArea;
         squares.forEach(print);
 
-//        Rectangle.printRectangleArea(new Rectangle(5.0, 6.0));
-//        Rectangle.printRectanglePerimeter(new Rectangle(5.0, 6.0));
-//
+
+        Supplier<Rectangle> randomRectangle=()->new Rectangle(new Random().nextDouble(100),new Random().nextDouble(300));
+        var rectangles = Stream.generate(randomRectangle).limit(5);
+//        Consumer<Rectangle> print1 = rectangle->{
+//            Rectangle.printRectangleArea(rectangle);
+//            Rectangle.printRectanglePerimeter(rectangle);
+//        }
+        rectangles.peek(Rectangle::printRectangleArea).forEach(Rectangle::printRectanglePerimeter);
+
+
+
 //        Triangle.printTriangleArea(new Triangle(5.0, 6.0, 7.0));
 //        Triangle.printTrianglePerimeter(new Triangle(5.0, 6.0, 7.0));
     }
