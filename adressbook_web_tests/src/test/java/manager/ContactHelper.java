@@ -47,6 +47,7 @@ public class ContactHelper extends HelperBase {
         openContactPage();
         //initContactCreation();
         fillContactForm(contact);
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         submitCreationContact();
         returnToHomePage();
     }
@@ -69,7 +70,8 @@ public class ContactHelper extends HelperBase {
     public void addContactToGroup(ContactData contact, GroupData group) {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         //openHomePage();
-        createContact(contact);
+       // createContact(contact);
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         selectContact(contact);
         selectGroupForContact(group);
         addToGroup();
@@ -112,7 +114,9 @@ public class ContactHelper extends HelperBase {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         //openHomePage();
         selectContact(contact);
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         removeSelectedContacts();
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         returnToHomePage();
     }
 

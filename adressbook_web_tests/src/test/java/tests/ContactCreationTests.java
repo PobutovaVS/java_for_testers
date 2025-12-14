@@ -131,20 +131,25 @@ public class ContactCreationTests extends TestBase {
 
     @Test
     public void CanAddContactToGroup() {
-        var contact = new ContactData()
+        if (!app.hbm().getContactList().isEmpty()) {
+            app.contacts().removeAllContacts();
+        }
+        app.hbm().getContactList();
+
+        app.contacts().createContact(new ContactData()
                 .withFirstName(CommonFunctions.randomString(10))
                 .withLastName(CommonFunctions.randomString(10))
                 .withMiddleName(CommonFunctions.randomString(10))
-                .withMobile(CommonFunctions.randomString(10));
+                .withMobile(CommonFunctions.randomString(10)));
 
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "gg", "gg", "gg"));
         }
         var group = app.hbm().getGroupList().get(0);
-        var contacts=app.hbm().getContactList();
-        var maxId = contacts.get(contacts.size() - 1).id();
+        var contacts = app.hbm().getContactList();
         var oldRelated = app.hbm().getContactsInGroup(group);
-        app.contacts().addContactToGroup(contact.withId(maxId), group);
+        var contact = contacts.get(0);
+        app.contacts().addContactToGroup(contact, group);
         var newRelated = app.hbm().getContactsInGroup(group);
         Assertions.assertEquals(oldRelated.size() + 1, newRelated.size());
     }
