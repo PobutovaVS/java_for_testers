@@ -50,9 +50,9 @@ public class GroupCreationTests extends TestBase {
     public static Stream<GroupData> singleRandomGroup() {
         Supplier<GroupData> randomGroup= () ->
                 new GroupData()
-                        .withName(CommonFunctions.randomString(10))
-                        .withHeader(CommonFunctions.randomString(20))
-                        .withFooter(CommonFunctions.randomString(30));
+                        .withName(CommonFunctions.randomStringFunctionalStyle(10))
+                        .withHeader(CommonFunctions.randomStringFunctionalStyle(20))
+                        .withFooter(CommonFunctions.randomStringFunctionalStyle(30));
         return Stream.generate(randomGroup).limit(3);
     }
 

@@ -8,12 +8,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GroupHelper extends HelperBase {
 
     public GroupHelper(ApplicationManager manager) {
         super(manager);
     }
+
     public void openGroupsPage() {
         if (!manager.isElementPresent(By.name("new"))) {
             click(By.linkText("groups"));
@@ -109,21 +111,31 @@ public class GroupHelper extends HelperBase {
 //        for (var checkbox : checkboxes) {
 //            checkbox.click();  //цикл, который перебирает все элементы коллекции чекбокс
 //        }
-       // checkboxes.forEach(checkbox->checkbox.click());
+        // checkboxes.forEach(checkbox->checkbox.click());
         checkboxes.forEach(WebElement::click);
     }
 
     public List<GroupData> getList() {
         WebDriverWait wait = new WebDriverWait(manager.driver, Duration.ofSeconds(10));
         openGroupsPage();
-        var groups = new ArrayList<GroupData>();
+        // var groups = new ArrayList<GroupData>();
         var spans = manager.driver.findElements(By.cssSelector("span.group"));
-        for (var span : spans) {
-            var name = span.getText();
-            var checkbox = span.findElement(By.name("selected[]"));
-            var id = checkbox.getAttribute("value");
-            groups.add(new GroupData().withId(id).withName(name));
-        }
-        return groups;
+
+        return spans.stream()
+                .map(span -> {
+                    var name = span.getText();
+                    var checkbox = span.findElement(By.name("selected[]"));
+                    var id = checkbox.getAttribute("value");
+                    new GroupData().withId(id).withName(name);
+                })
+                .collect(Collectors.toList());
+
+//        for (var span : spans) {
+//            var name = span.getText();
+//            var checkbox = span.findElement(By.name("selected[]"));
+//            var id = checkbox.getAttribute("value");
+//            groups.add(new GroupData().withId(id).withName(name));
+//        }
+//        return groups;
     }
 }
