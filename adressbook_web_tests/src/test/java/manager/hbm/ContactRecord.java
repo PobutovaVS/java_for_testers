@@ -28,8 +28,9 @@ public class ContactRecord {
     public String company = new String();
     public String title = new String();
     public String address = new String();
-    public String home = new String();
-    public String work = new String();
+    public String home;
+    public String work;
+    public String phone2;
     public String fax = new String();
     public String email = new String();
     public String email2 = new String();

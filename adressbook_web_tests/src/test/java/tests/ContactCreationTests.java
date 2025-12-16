@@ -145,6 +145,7 @@ public class ContactCreationTests extends TestBase {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "gg", "gg", "gg"));
         }
+        app.contacts().openHomePage();
         var group = app.hbm().getGroupList().get(0);
         var contacts = app.hbm().getContactList();
         var oldRelated = app.hbm().getContactsInGroup(group);

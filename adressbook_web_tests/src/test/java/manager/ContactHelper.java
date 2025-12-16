@@ -69,7 +69,7 @@ public class ContactHelper extends HelperBase {
 
     public void addContactToGroup(ContactData contact, GroupData group) {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        //openHomePage();
+        openHomePage();
        // createContact(contact);
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         selectContact(contact);
@@ -206,5 +206,9 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
+    public String getPhones(ContactData contact) {
+        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
+
+    }
 }
 
