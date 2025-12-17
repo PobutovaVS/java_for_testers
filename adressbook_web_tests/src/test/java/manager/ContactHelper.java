@@ -3,12 +3,15 @@ package manager;
 import model.ContactData;
 import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class ContactHelper extends HelperBase {
     public ContactHelper(ApplicationManager manager) {
@@ -52,7 +55,7 @@ public class ContactHelper extends HelperBase {
         returnToHomePage();
     }
 
-    private void selectGroup(GroupData group){
+    private void selectGroup(GroupData group) {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         new Select(manager.driver.findElement(By.name("new_group"))).selectByValue(group.id());
     }
@@ -70,7 +73,7 @@ public class ContactHelper extends HelperBase {
     public void addContactToGroup(ContactData contact, GroupData group) {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         openHomePage();
-       // createContact(contact);
+        // createContact(contact);
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         selectContact(contact);
         selectGroupForContact(group);
@@ -207,8 +210,19 @@ public class ContactHelper extends HelperBase {
     }
 
     public String getPhones(ContactData contact) {
-        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[6]",contact.id()))).getText();
+        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[6]", contact.id()))).getText();
 
+    }
+
+    public Map<String, String> getPhones() {
+        var result = new HashMap<String, String>();
+        List<WebElement> rows = manager.driver.findElements(By.name("entry"));
+        for (WebElement row : rows) {
+            var id = row.findElement(By.tagName("input")).getAttribute("id");
+            var phones = row.findElements(By.tagName("td")).get(5).getText();
+            result.put(id, phones);
+        }
+        return result;
     }
 }
 
