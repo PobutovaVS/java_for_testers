@@ -35,15 +35,20 @@ public class JbdcHelper extends HelperBase {
         var contacts = new ArrayList<ContactData>();
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
              var statement = conn.createStatement();
-             var result = statement.executeQuery("SELECT id,firstname, middlename, lastname,mobile FROM addressbook"))
-        {
+             var result = statement.executeQuery("SELECT id,firstname, middlename, lastname,mobile FROM addressbook")) {
             while (result.next()) {
                 contacts.add(new ContactData()
                         .withId(result.getString("id"))
                         .withFirstName(result.getString("firstname"))
                         .withMiddleName(result.getString("middlename"))
                         .withLastName(result.getString("lastname"))
-                        .withMobile(result.getString("mobile")));
+                        .withMobile(result.getString("mobile"))
+                        .withPhone2(result.getString("phone2"))
+                        .withHome(result.getString("home"))
+                        .withAddress(result.getString("address"))
+                        .withEmail(result.getString("email"))
+                        .withEmail2(result.getString("email2"))
+                        .withEmail3(result.getString("email3")));
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -54,10 +59,9 @@ public class JbdcHelper extends HelperBase {
     public void checkConsistency() {
         try (var conn = DriverManager.getConnection("jdbc:mysql://localhost/addressbook", "root", "");
              var statement = conn.createStatement();
-             var result = statement.executeQuery("SELECT * FROM `address_in_groups` ag LEFT JOIN addressbook ab ON ab.id=ag.id WHERE ab.id IS NULL"))
-        {
+             var result = statement.executeQuery("SELECT * FROM `address_in_groups` ag LEFT JOIN addressbook ab ON ab.id=ag.id WHERE ab.id IS NULL")) {
             if (result.next()) {
-              throw new IllegalStateException("DB is corrupted");
+                throw new IllegalStateException("DB is corrupted");
             }
         } catch (SQLException e) {
             throw new RuntimeException(e);

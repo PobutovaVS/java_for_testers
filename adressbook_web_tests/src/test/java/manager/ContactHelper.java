@@ -3,7 +3,9 @@ package manager;
 import model.ContactData;
 import model.GroupData;
 import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -32,9 +34,14 @@ public class ContactHelper extends HelperBase {
         }
     }
 
+    public void clickHomePage() {
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+            click(By.cssSelector("#logo"));
+    }
+
     public void returnToHomePage() {
         manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
-        click(By.cssSelector("a[href^='./']"));
+        click(By.cssSelector("a[href^='edit.php?id=%s']"));
 
 
     }
@@ -50,9 +57,12 @@ public class ContactHelper extends HelperBase {
         openContactPage();
         //initContactCreation();
         fillContactForm(contact);
-        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
         submitCreationContact();
-        returnToHomePage();
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        //returnToHomePage();
+        clickHomePage();
+        manager.driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+        refreshPage();
     }
 
     private void selectGroup(GroupData group) {
@@ -68,6 +78,11 @@ public class ContactHelper extends HelperBase {
         selectGroup(group);
         submitCreationContact();
         returnToHomePage();
+        clickHomePage();
+    }
+
+    public void refreshPage() {
+        ((JavascriptExecutor) manager.driver).executeScript("location.reload()");
     }
 
     public void addContactToGroup(ContactData contact, GroupData group) {
@@ -100,6 +115,7 @@ public class ContactHelper extends HelperBase {
         selectContact(contact);
         removeSelectedContactFromGroup();
         returnToHomePage();
+
     }
 
     private void removeSelectedContactFromGroup() {
@@ -134,6 +150,9 @@ public class ContactHelper extends HelperBase {
         type(By.name("lastname"), contact.lastname());
         type(By.name("middlename"), contact.middlename());
         type(By.name("mobile"), contact.mobile());
+        type(By.name("address"), contact.address());
+        type(By.name("email"), contact.email());
+        type(By.name("email3"), contact.email3());
         //attach(By.name("photo"), contact.photo());
     }
 
@@ -220,6 +239,21 @@ public class ContactHelper extends HelperBase {
         for (WebElement row : rows) {
             var id = row.findElement(By.tagName("input")).getAttribute("id");
             var phones = row.findElements(By.tagName("td")).get(5).getText();
+            result.put(id, phones);
+        }
+        return result;
+    }
+
+    public String getAddress(ContactData contact) {
+        return manager.driver.findElement(By.xpath(String.format("//input[@id='%s']/../../td[4]", contact.id()))).getText();
+    }
+
+    public Map<String, String> getEmails() {
+        var result = new HashMap<String, String>();
+        List<WebElement> rows = manager.driver.findElements(By.name("entry"));
+        for (WebElement row : rows) {
+            var id = row.findElement(By.tagName("input")).getAttribute("id");
+            var phones = row.findElements(By.tagName("td")).get(4).getText();
             result.put(id, phones);
         }
         return result;
