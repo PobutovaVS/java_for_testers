@@ -93,7 +93,7 @@ public class ContactHelper extends HelperBase {
         selectContact(contact);
         selectGroupForContact(group);
         addToGroup();
-        returnToHomePage();
+       clickHomePage();
     }
 
     private void addToGroup() {
@@ -114,7 +114,7 @@ public class ContactHelper extends HelperBase {
         selectContactGroup(group);
         selectContact(contact);
         removeSelectedContactFromGroup();
-        returnToHomePage();
+        clickHomePage();
 
     }
 

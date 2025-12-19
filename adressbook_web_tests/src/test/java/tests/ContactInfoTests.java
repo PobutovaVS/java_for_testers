@@ -30,7 +30,6 @@ public class ContactInfoTests extends TestBase {
 
     @Test
     void testAddress() {
-        var contacts = app.hbm().getContactList();
         if (app.hbm().getContactCount() == 0) {
             app.contacts().createContact(new ContactData().withFirstName(CommonFunctions.randomString(10))
                     .withLastName(CommonFunctions.randomString(10))
@@ -41,7 +40,7 @@ public class ContactInfoTests extends TestBase {
                     .withEmail3(CommonFunctions.randomString(10)));
             app.refreshPage();
         }
-        app.refreshPage();
+        var contacts = app.hbm().getContactList();
         var contact = contacts.get(0);
         var address = app.contacts().getAddress(contact);
         var expected = contact.address();

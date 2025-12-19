@@ -134,8 +134,6 @@ public class ContactCreationTests extends TestBase {
         if (!app.hbm().getContactList().isEmpty()) {
            app.contacts().removeAllContacts();
         }
-        app.hbm().getContactList();
-
         app.contacts().createContact(new ContactData()
                 .withFirstName(CommonFunctions.randomString(10))
                 .withLastName(CommonFunctions.randomString(10))
@@ -145,7 +143,7 @@ public class ContactCreationTests extends TestBase {
         if (app.hbm().getGroupCount() == 0) {
             app.hbm().createGroup(new GroupData("", "gg", "gg", "gg"));
         }
-        app.contacts().openHomePage();
+        app.contacts().clickHomePage();
         var group = app.hbm().getGroupList().get(0);
         var contacts = app.hbm().getContactList();
         var oldRelated = app.hbm().getContactsInGroup(group);
