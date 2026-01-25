@@ -1,18 +1,43 @@
 package ru.stqa.mantis.tests;
 
 import org.junit.jupiter.api.Test;
+import ru.stqa.mantis.common.CommonFunctions;
+
+import java.time.Duration;
+import java.util.regex.Pattern;
 
 public class UserRegistrationTests extends TestBase{
 
     @Test
-    void canRegisterUser(String username) {
-        var email=String.format("%s@localhost",username);
+    void canRegisterUser() {
         //создать пользователя (адрес) на почтовом сервере (JamesHelper)
+        var name = CommonFunctions.randomString(4);
+        try {
+            app.jamesCli().addUser(name + "@localhost", "password");
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         //заполняем форму создания и отправляем (браузер)
+        app.session().registration(name, name+"@localhost");
         //ждем почту (MailHelper)
+        var messages = app.mail().receive(name + "@localhost", "password", Duration.ofSeconds(10));
         //извлекаем ссылку из письма
+        var text = messages.get(0).content();
         //проходим по ссылке и завершаем регистрацию (браузер)
-        //проверяем, что пользователь может залогиниться (HttpSessionHelper)
-
+        var pattern = Pattern.compile("http://\\S*");
+        var matcher = pattern.matcher(text);
+        String url = null;
+        if (matcher.find()) {
+            url = text.substring(matcher.start(), matcher.end()); // присваиваем
+        }
+        if (url != null) {
+            app.driver().get(url);
+        } else {
+            throw new RuntimeException("Ссылка не найдена");
+        }
+        //проверяем, что пользователь может залогиниться с новым паролем (HttpSessionHelper)
+        app.session().submitRegistration(name, "password", "password");
+        app.http().login(name, "password");
+        app.http().isLoggedIn();
     }
 }
