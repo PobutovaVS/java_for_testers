@@ -18,7 +18,7 @@ public class JamesApiHelper extends HelperBase {
     }
 
     public void addUser(String email, String password) {
-        RequestBody body = RequestBody.create(String.format("{\"password\":\"%s\"}"), JSON);
+        RequestBody body = RequestBody.create(String.format("{\"password\":\"%s\"}", password), JSON);
 
         Request request = new Request.Builder()
                 .url(String.format("%s/users/%s", manager.property("james.apiBaseUrl"), email))
